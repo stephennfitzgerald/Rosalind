@@ -1,0 +1,28 @@
+ use strict;
+
+    my(%P,%S);
+    my$k=3;
+
+    $/=">";
+    while(<>){
+     $_=~s/>//;
+     my($name,@seq)=split("\n",$_);
+     next unless @seq;
+     my$seq=join("",@seq); 
+     my($pref,$suff)=(join("",(split("",$seq))[0..($k-1)]),
+                                join("",(split("",$seq))[-($k)..-1]));
+     $P{$pref}{$name}++;
+     $S{$suff}{$name}++;
+    }
+
+    foreach my$prefix(keys %P){
+     if(exists($S{$prefix})){
+      foreach my$p_name(keys %{$P{$prefix}}){
+       foreach my$s_name(keys %{$S{$prefix}}){
+        unless($p_name eq $s_name){
+         print join(" ", $s_name, $p_name), "\n";
+        }
+       }
+      }
+     }
+    }
